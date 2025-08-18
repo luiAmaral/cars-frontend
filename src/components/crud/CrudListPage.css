@@ -1,0 +1,55 @@
+.crud-list-page .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.add-button {
+  padding: 0.75rem 1.5rem;
+  background-color: #28a745;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.add-button:hover {
+  background-color: #218838;
+}
+
+.crud-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.crud-table th, .crud-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.crud-table th {
+  background-color: #f8f9fa;
+}
+
+.actions .edit-button, .actions .delete-button {
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  margin-right: 0.5rem;
+}
+
+.actions .edit-button {
+  background-color: #ffc107;
+  color: #333;
+}
+
+.actions .delete-button {
+  background-color: #dc3545;
+  color: white;
+}
