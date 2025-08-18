@@ -1,15 +1,40 @@
 // src/pages/Modelo/ModeloFormPage.tsx
+import { useState, useEffect } from 'react'; // 1. IMPORTE useState e useEffect
 import CrudFormPage from '../../components/crud/CrudFormPage';
-import { getModeloById, createModelo, updateModelo, type Modelo, type ModeloCreate } from '../../services/api';
+import { 
+  getModeloById, 
+  createModelo, 
+  updateModelo, 
+  getMarcas, // 2. IMPORTE a função para buscar marcas
+  type Modelo, 
+  type ModeloCreate,
+  type Marca // Importe o tipo Marca também
+} from '../../services/api';
 
 function ModeloFormPage() {
+  // 3. CRIE UM ESTADO PARA ARMAZENAR A LISTA DE MARCAS
+  const [marcas, setMarcas] = useState<Marca[]>([]);
+
   const modeloApi = {
     getById: getModeloById,
     create: createModelo,
     update: updateModelo,
   };
 
-  // Definimos os campos que nosso formulário terá
+  // 4. USE o useEffect PARA BUSCAR AS MARCAS QUANDO A PÁGINA CARREGAR
+  useEffect(() => {
+    // Busca a lista de todas as marcas para preencher o dropdown
+    getMarcas()
+      .then(response => {
+        setMarcas(response.data);
+      })
+      .catch(error => {
+        console.error("Erro ao buscar marcas:", error);
+        alert("Não foi possível carregar a lista de marcas.");
+      });
+  }, []); // O array vazio [] garante que isso rode apenas uma vez
+
+  // 5. ATUALIZE A DEFINIÇÃO DO CAMPO 'marca_id'
   const fields = [
     {
       name: 'nome',
@@ -18,21 +43,25 @@ function ModeloFormPage() {
     },
     {
       name: 'marca_id',
-      label: 'ID da Marca',
-      type: 'number' as const,
+      label: 'Marca', // O rótulo agora é mais amigável
+      type: 'select' as const, // Mude o tipo para 'select'
+      // A nova propriedade 'options' mapeia a lista de marcas para o formato que o formulário espera
+      options: marcas.map(marca => ({
+        value: marca.id,
+        label: marca.nome_marca,
+      })),
     },
     {
-        name: 'valor_fipe',
-        label: 'Valor FIPE',
-        type: 'number' as const,
-    }
+      name: 'valor_fipe',
+      label: 'Valor FIPE',
+      type: 'number' as const,
+    },
   ];
 
-  // Estado inicial para um novo modelo
   const initialState: ModeloCreate = {
     nome: '',
-    marca_id: 0, // Ou 1, se preferir um valor padrão
-    valor_fipe: 0, // Valor padrão para o campo de valor FIPE
+    marca_id: 0,
+    valor_fipe: 0,
   };
 
   return (
