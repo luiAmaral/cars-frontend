@@ -1,6 +1,7 @@
 /* src/pages/HomePage.css */
 .home-container {
   min-height: calc(105vh - 120px);
+
   background: #f7fafc;
   display: flex;
   flex-direction: column;
