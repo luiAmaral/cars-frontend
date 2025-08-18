@@ -91,17 +91,39 @@ function CrudFormPage<T extends { id?: number | string }>({
     <div className="crud-form-page">
       <h1>{`${isEditMode ? 'Editar' : 'Criar'} ${title}`}</h1>
       <form onSubmit={handleSubmit} className="crud-form">
+        
+        {/* ==================== A CORREÇÃO ESTÁ AQUI ==================== */}
         {fields.map(field => (
           <div key={field.name} className="form-group">
-            <label htmlFor={field.name}>{field.name.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}</label>
-            <input
-              id={field.name}
-              name={field.name}
-              type={field.type}
-              value={(formData as any)[field.name] || ''}
-              onChange={handleChange}
-              required
-            />
+            <label htmlFor={field.name}>{field.label}</label>
+            
+            {/* Adicionamos a lógica para verificar se o tipo do campo é 'select' */}
+            {field.type === 'select' ? (
+              <select
+                id={field.name}
+                name={field.name}
+                value={(formData as any)[field.name] || ''}
+                onChange={handleChange}
+                required
+              >
+                <option value="" disabled>Selecione uma opção</option>
+                {field.options?.map(option => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              // Caso contrário, renderiza um input normal
+              <input
+                id={field.name}
+                name={field.name}
+                type={field.type}
+                value={(formData as any)[field.name] || ''}
+                onChange={handleChange}
+                required
+              />
+            )}
           </div>
         ))}
         <div className="form-actions">
