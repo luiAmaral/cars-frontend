@@ -8,22 +8,13 @@ body {
 
 /* Estilo para o header ocupar a largura toda */
 .main-header {
-  background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
-  color: white;
+  background: #ffffff;
+  color: #2d3748;
   padding: 1rem 0;
   width: 100%;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #e2e8f0;
   position: relative;
-}
-
-.main-header::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, #667eea, #764ba2);
 }
 
 /* Este container alinha o conteúdo do header com o container principal */
@@ -34,7 +25,7 @@ body {
 }
 
 .logo {
-  color: white;
+  color: #2d3748;
   text-decoration: none;
   font-size: 1.6rem;
   font-weight: 800;
@@ -44,14 +35,8 @@ body {
   gap: 0.5rem;
 }
 
-.logo::before {
-  content: '🚗';
-  font-size: 1.8rem;
-}
-
 .logo:hover {
-  transform: translateY(-1px);
-  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  color: #4a5568;
 }
 
 /* Container principal para o conteúdo das páginas */
