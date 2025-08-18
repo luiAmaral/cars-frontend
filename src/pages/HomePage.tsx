@@ -23,35 +23,7 @@ function HomePage() {
         </p>
       </div>
 
-      {/* Grid de Features */}
-      <div className="features-grid">
-        <div className="feature-card">
-          <div className="feature-icon">🏷️</div>
-          <h3 className="feature-title">Gerenciar Marcas</h3>
-          <p className="feature-description">
-            Cadastre e organize todas as marcas de veículos da sua frota. 
-            Mantenha um controle completo sobre os fabricantes.
-          </p>
-        </div>
-
-        <div className="feature-card">
-          <div className="feature-icon">🚗</div>
-          <h3 className="feature-title">Controle de Modelos</h3>
-          <p className="feature-description">
-            Registre modelos específicos para cada marca, incluindo 
-            informações detalhadas e valores de referência FIPE.
-          </p>
-        </div>
-
-        <div className="feature-card">
-          <div className="feature-icon">🔧</div>
-          <h3 className="feature-title">Gestão de Carros</h3>
-          <p className="feature-description">
-            Cadastre veículos individuais com todas as especificações: 
-            ano, cor, combustível, portas e muito mais.
-          </p>
-        </div>
-      </div>
+      
 
       {/* Call to Action */}
       <div className="cta-section">
