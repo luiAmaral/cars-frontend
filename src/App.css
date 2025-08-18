@@ -1,18 +1,29 @@
 /* src/App.css */
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  background-color: #f4f4f9;
+  background-color: #f8fafc;
   margin: 0;
   color: #333;
 }
 
 /* Estilo para o header ocupar a largura toda */
 .main-header {
-  background-color: #212529; /* Um preto um pouco mais suave */
+  background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
   color: white;
   padding: 1rem 0;
   width: 100%;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  position: relative;
+}
+
+.main-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #667eea, #764ba2);
 }
 
 /* Este container alinha o conteúdo do header com o container principal */
@@ -25,13 +36,28 @@ body {
 .logo {
   color: white;
   text-decoration: none;
-  font-size: 1.5rem;
-  font-weight: bold;
+  font-size: 1.6rem;
+  font-weight: 800;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo::before {
+  content: '🚗';
+  font-size: 1.8rem;
+}
+
+.logo:hover {
+  transform: translateY(-1px);
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 /* Container principal para o conteúdo das páginas */
 .container {
   max-width: 100%;
-  margin: 2rem auto;
-  padding: 1rem;
+  margin: 0;
+  padding: 0;
+  min-height: calc(100vh - 80px);
 }
