@@ -42,7 +42,4 @@ body {
 /* Container principal para o conteúdo das páginas */
 .container {
   max-width: 100%;
-  margin: 0;
-  padding: 0;
-  min-height: calc(100vh - 80px);
 }
