@@ -1,3 +1,5 @@
+/* CrudListPage.css - Design Minimalista e Moderno */
+
 .crud-list-page {
   max-width: 1200px;
   margin: 0 auto;
@@ -60,7 +62,11 @@
 
 .crud-table {
   width: 100%;
+<<<<<<< HEAD
   border-collapse: collapse; 
+=======
+  border-collapse: separate;
+>>>>>>> 6587e9cc6cb49f85d63a709b9792d9aa66353c52
   border-spacing: 0;
   background-color: white;
   border-radius: 12px;
@@ -78,6 +84,7 @@
   font-size: 0.95rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+<<<<<<< HEAD
   text-align: center;
 }
 
@@ -90,15 +97,35 @@
   text-align: center;
 }
 
+=======
+
+.crud-table td {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #f1f3f4;
+  color: #2c3e50;
+  font-size: 0.95rem;
+  vertical-align: middle;
+}
+
+>>>>>>> 6587e9cc6cb49f85d63a709b9792d9aa66353c52
 .crud-table tbody tr:last-child td {
   border-bottom: none;
 }
 
+<<<<<<< HEAD
 .crud-table td:last-child {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
+=======
+.crud-table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 12px;
+}
+
+.crud-table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 12px;
+>>>>>>> 6587e9cc6cb49f85d63a709b9792d9aa66353c52
 }
 
 .actions {
