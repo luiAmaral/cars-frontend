@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useState, useEffect, useMemo } from 'react'; // Adicionamos useMemo
+import { useState, useEffect, useMemo } from 'react'; 
 import { Link } from 'react-router-dom';
 import { getCarros, getMarcas, getModelos, deleteCarro } from '../../services/api';
 import type { Carro, Marca, Modelo } from '../../services/api';
 import '../../components/crud/CrudListPage.css';
+import Spinner from '../../components/common/Spinner';
 
 interface DadosDaPagina {
   carros: Carro[];
@@ -26,7 +27,6 @@ function CarroListPage() {
         getModelos(),
       ]);
       
-      // Armazenamos os dados brutos em um único objeto de estado
       setDados({
         carros: carrosResponse.data.cars,
         marcas: marcasResponse.data,
@@ -50,21 +50,17 @@ function CarroListPage() {
       try {
         await deleteCarro(id);
         alert('Carro excluído com sucesso!');
-        fetchData(); // Apenas recarrega todos os dados
+        fetchData(); 
       } catch (err: any) {
         alert(`Erro ao excluir o carro: ${err.response?.data?.detail || err.message}`);
       }
     }
   };
 
-  // SIMPLIFICAÇÃO 2: A lógica de agrupamento e mapeamento sai do 'fetchData'
-  // e entra aqui, usando 'useMemo' para evitar recálculos desnecessários.
   const carrosAgrupados = useMemo(() => {
     if (!dados) return {};
 
-    // A lógica de reduce continua a mesma, mas agora ela depende do estado 'dados'.
     return dados.carros.reduce((acc, carro) => {
-      // **ATENÇÃO:** Substitua 'brand' pelo nome exato do campo no seu objeto Carro!
       const marcaDoCarro = dados.marcas.find(m => m.id === carro.brand);
       const nomeMarca = marcaDoCarro?.nome_marca || 'Marca Desconhecida';
       
@@ -75,12 +71,12 @@ function CarroListPage() {
       return acc;
     }, {} as { [nomeMarca: string]: Carro[] });
 
-  }, [dados]); // Esta lógica só será executada novamente se o estado 'dados' mudar.
+  }, [dados]); 
 
 
-  if (loading) return <p>Carregando...</p>;
+  if (loading) return <Spinner />;
   if (error) return <p style={{ color: 'red' }}>{error}</p>;
-  if (!dados) return <p>Nenhum dado encontrado.</p>; // Uma checagem de segurança
+  if (!dados) return <p>Nenhum dado encontrado.</p>; 
 
   return (
     <div className="crud-list-page">
@@ -104,9 +100,6 @@ function CarroListPage() {
             </thead>
             <tbody>
               {carrosAgrupados[nomeMarca].map(carro => {
-                // SIMPLIFICAÇÃO 3: A busca do nome do modelo é feita aqui, na hora.
-                // Usamos '.find()' que é mais simples de ler que o Map.
-                // **ATENÇÃO:** Substitua 'modelo_id' pelo nome exato do campo no seu objeto Carro!
                 const modeloDoCarro = dados.modelos.find(m => m.id === carro.modelo_id);
                 const nomeModelo = modeloDoCarro?.nome || 'Modelo Desconhecido';
 
