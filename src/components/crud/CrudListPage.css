@@ -77,22 +77,6 @@
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
   color: #495057;
   font-weight: 600;
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  padding: 1.25rem 1.5rem;
-  text-align: left;
-  border: none;
-  position: relative;
-}
-
-.crud-table th:first-child {
-  border-top-left-radius: 12px;
-}
-
-.crud-table th:last-child {
-  border-top-right-radius: 12px;
-}
 
 .crud-table td {
   padding: 1.25rem 1.5rem;
@@ -103,13 +87,11 @@
 }
 
 .crud-table tbody tr {
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
 .crud-table tbody tr:hover {
   background-color: #f8f9ff;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .crud-table tbody tr:last-child td {
