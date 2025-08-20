@@ -154,10 +154,6 @@
   transform: translateY(0);
 }
 
-<<<<<<< HEAD
-=======
-/* Estados de validação */
->>>>>>> 6587e9cc6cb49f85d63a709b9792d9aa66353c52
 .crud-form input:invalid:not(:focus):not(:placeholder-shown) {
   border-color: #e74c3c;
   background: #fdf2f2;
@@ -168,10 +164,6 @@
   background: #f2fdf2;
 }
 
-<<<<<<< HEAD
-=======
-/* Responsividade */
->>>>>>> 6587e9cc6cb49f85d63a709b9792d9aa66353c52
 @media (max-width: 768px) {
   .crud-form-page {
     margin: 1rem;
@@ -226,10 +218,6 @@
   }
 }
 
-<<<<<<< HEAD
-=======
-/* Estados de loading */
->>>>>>> 6587e9cc6cb49f85d63a709b9792d9aa66353c52
 .crud-form input:disabled,
 .crud-form select:disabled {
   background: #f8f9fa;
@@ -238,19 +226,11 @@
   opacity: 0.7;
 }
 
-<<<<<<< HEAD
-=======
-/* Focus states melhorados para acessibilidade */
->>>>>>> 6587e9cc6cb49f85d63a709b9792d9aa66353c52
 .form-actions button:focus {
   outline: 2px solid #4a5568;
   outline-offset: 2px;
 }
 
-<<<<<<< HEAD
-=======
-/* Melhorias visuais adicionais */
->>>>>>> 6587e9cc6cb49f85d63a709b9792d9aa66353c52
 .crud-form input[type="number"]::-webkit-outer-spin-button,
 .crud-form input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -261,10 +241,6 @@
   -moz-appearance: textfield;
 }
 
-<<<<<<< HEAD
-=======
-/* Placeholder styling */
->>>>>>> 6587e9cc6cb49f85d63a709b9792d9aa66353c52
 .crud-form input::placeholder,
 .crud-form select::placeholder {
   color: #a0aec0;
