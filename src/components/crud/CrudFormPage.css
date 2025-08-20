@@ -1,78 +1,303 @@
-/* src/components/crud/CrudFormPage.css */
+/* src/components/crud/CrudFormPage.css - Design Minimalista e Moderno */
 
 .crud-form-page {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 2rem;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 0;
+  background: transparent;
+  min-height: calc(100vh - 160px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .crud-form-page h1 {
   text-align: center;
-  margin-bottom: 2rem;
-  color: #333;
+  margin-bottom: 3rem;
+  color: #2c3e50;
+  font-size: 2.5rem;
+  font-weight: 300;
+  letter-spacing: -0.5px;
+  position: relative;
+}
+
+.crud-form-page h1::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 2px;
+}
+
+.crud-form {
+  background: white;
+  padding: 3rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.crud-form::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
 }
 
 .crud-form .form-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  position: relative;
 }
 
 .crud-form label {
   display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-  color: #555;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  color: #34495e;
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  font-size: 0.85rem;
 }
 
 .crud-form input,
 .crud-form select {
   width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 1rem 1.25rem;
+  border: 2px solid #e8ecf0;
+  border-radius: 12px;
   font-size: 1rem;
+  color: #2c3e50;
+  background: #fafbfc;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
+  font-family: inherit;
 }
 
 .crud-form input:focus,
 .crud-form select:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  border-color: #667eea;
+  background: white;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+  transform: translateY(-1px);
+}
+
+.crud-form input:hover,
+.crud-form select:hover {
+  border-color: #cbd5e0;
+  background: white;
+}
+
+.crud-form select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23667eea' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 20px;
+  padding-right: 3rem;
+}
+
+.crud-form select:focus {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23667eea' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
 }
 
 .form-actions {
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
-  margin-top: 2rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #f1f3f4;
 }
 
 .form-actions button {
-  padding: 0.75rem 1.5rem;
+  padding: 1rem 2.5rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 50px;
   font-size: 1rem;
-  font-weight: bold;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  letter-spacing: 0.3px;
+  position: relative;
+  overflow: hidden;
+  min-width: 140px;
 }
 
 .cancel-button {
-  background-color: #6c757d;
-  color: white;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  color: #6c757d;
+  border: 2px solid #dee2e6;
 }
 
 .cancel-button:hover {
-  background-color: #5a6268;
+  background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+  color: #495057;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(108, 117, 125, 0.2);
 }
 
 .submit-button {
-  background-color: #007bff;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
+  border: 2px solid transparent;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
 .submit-button:hover {
-  background-color: #0056b3;
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.submit-button:active,
+.cancel-button:active {
+  transform: translateY(0);
+}
+
+/* Estados de validação */
+.crud-form input:invalid:not(:focus):not(:placeholder-shown) {
+  border-color: #e74c3c;
+  background: #fdf2f2;
+}
+
+.crud-form input:valid:not(:focus):not(:placeholder-shown) {
+  border-color: #27ae60;
+  background: #f2fdf2;
+}
+
+/* Animações */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.crud-form-page {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.crud-form .form-group {
+  animation: fadeInUp 0.4s ease-out;
+  animation-fill-mode: both;
+}
+
+.crud-form .form-group:nth-child(1) { animation-delay: 0.1s; }
+.crud-form .form-group:nth-child(2) { animation-delay: 0.2s; }
+.crud-form .form-group:nth-child(3) { animation-delay: 0.3s; }
+.crud-form .form-group:nth-child(4) { animation-delay: 0.4s; }
+.crud-form .form-group:nth-child(5) { animation-delay: 0.5s; }
+
+.form-actions {
+  animation: fadeInUp 0.4s ease-out 0.6s both;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .crud-form-page {
+    margin: 1rem;
+    max-width: none;
+  }
+
+  .crud-form-page h1 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .crud-form {
+    padding: 2rem 1.5rem;
+    border-radius: 16px;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+    gap: 0.75rem;
+  }
+
+  .form-actions button {
+    width: 100%;
+    padding: 1rem;
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .crud-form-page {
+    margin: 0.5rem;
+  }
+
+  .crud-form-page h1 {
+    font-size: 1.75rem;
+  }
+
+  .crud-form {
+    padding: 1.5rem 1rem;
+    border-radius: 12px;
+  }
+
+  .crud-form input,
+  .crud-form select {
+    padding: 0.875rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  .crud-form select {
+    padding-right: 2.5rem;
+    background-size: 18px;
+  }
+}
+
+/* Estados de loading */
+.crud-form input:disabled,
+.crud-form select:disabled {
+  background: #f8f9fa;
+  color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Focus states melhorados para acessibilidade */
+.form-actions button:focus {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+}
+
+/* Melhorias visuais adicionais */
+.crud-form input[type="number"]::-webkit-outer-spin-button,
+.crud-form input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.crud-form input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Placeholder styling */
+.crud-form input::placeholder,
+.crud-form select::placeholder {
+  color: #a0aec0;
+  opacity: 1;
+}
+
+/* Smooth transitions para todos os elementos */
+* {
+  transition: all 0.2s ease;
 }
