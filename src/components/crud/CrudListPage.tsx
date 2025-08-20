@@ -1,4 +1,7 @@
-// src/components/Crud/CrudListPage.tsx
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// src/components/crud/CrudListPage.tsx
+
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './CrudListPage.css';
@@ -11,30 +14,29 @@ interface Column {
 }
 
 interface ApiFunctions<T> {
-  getAll: () => Promise<{ data: T[] | { cars: T[] } }>; // A resposta pode ser um array de T ou um objeto {cars: T[]}
+  getAll: () => Promise<{ data: any }>; // Mudamos para 'any' para ser mais flexível
   delete: (id: number | string) => Promise<void>;
 }
 
-// MUDANÇA 2: As props do componente também se tornam genéricas com <T>
+// MUDANÇA 1: Adicionar a nova prop opcional 'dataAccessor'
 interface CrudListPageProps<T> {
   title: string;
   api: ApiFunctions<T>;
   columns: Column[];
   addPath: string;
   editPath: string;
+  dataAccessor?: string; // <-- NOVA PROP OPCIONAL
 }
 
-// MUDANÇA 3: O componente agora é uma função genérica.
-// Ele aceita um tipo T que DEVE ter uma propriedade 'id'.
 function CrudListPage<T extends { id: number | string }>({
   title,
   api,
   columns,
   addPath,
   editPath,
+  dataAccessor, // <-- MUDANÇA 2: Receber a nova prop aqui
 }: CrudListPageProps<T>) {
 
-  // O estado 'items' agora é fortemente tipado com T
   const [items, setItems] = useState<T[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -44,9 +46,20 @@ function CrudListPage<T extends { id: number | string }>({
       setLoading(true);
       const response = await api.getAll();
       
-      // Verifica se a resposta tem a propriedade 'cars' e extrai o array correto
-      const data = 'cars' in response.data ? response.data.cars : response.data;
-      setItems(data);
+      // MUDANÇA 3: Substituir a lógica hardcoded por uma lógica 100% genérica
+      // Esta é a principal alteração.
+      const data = dataAccessor && response.data && response.data[dataAccessor]
+        ? response.data[dataAccessor]
+        : response.data;
+      
+      // Validação para garantir que 'data' é um array antes de setar o estado
+      if (Array.isArray(data)) {
+        setItems(data);
+      } else {
+        // Se não for um array, algo está errado com a resposta da API ou com o dataAccessor
+        console.error("Erro: Os dados recebidos da API não são um array.", response.data);
+        throw new Error("Formato de dados inválido recebido da API.");
+      }
 
     } catch (err) {
       setError(`Falha ao carregar ${title.toLowerCase()}.`);
@@ -58,14 +71,14 @@ function CrudListPage<T extends { id: number | string }>({
 
   useEffect(() => {
     fetchData();
-  }, [title]);
+  }, [title]); // A dependência pode ser mantida ou removida dependendo do caso de uso
 
   const handleDelete = async (id: number | string) => {
     if (window.confirm('Tem certeza que deseja excluir este item?')) {
       try {
         await api.delete(id);
         alert('Item excluído com sucesso!');
-        fetchData(); // Recarrega a lista
+        fetchData(); 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         alert(`Erro ao excluir o item: ${err.response?.data?.detail || err.message}`);
@@ -98,7 +111,6 @@ function CrudListPage<T extends { id: number | string }>({
           {items.map((item) => (
             <tr key={item.id}>
               {columns.map((col) => (
-                // Usamos 'as keyof T' para garantir ao TypeScript que o accessor é uma chave válida do item
                 <td key={col.accessor}>{String(item[col.accessor as keyof T])}</td>
               ))}
               <td className="actions">

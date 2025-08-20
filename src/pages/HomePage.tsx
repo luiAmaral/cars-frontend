@@ -1,18 +1,15 @@
-// src/pages/HomePage.tsx
 import { Link } from 'react-router-dom';
 import './HomePage.css';
 
 function HomePage() {
   return (
     <div className="home-container">
-      {/* Elementos flutuantes decorativos */}
       <div className="floating-elements">
         <div className="floating-circle"></div>
         <div className="floating-circle"></div>
         <div className="floating-circle"></div>
       </div>
 
-      {/* Seção Hero */}
       <div className="hero-section">
         <h1 className="hero-title">
           Sistema de Gestão de Veículos
@@ -23,9 +20,6 @@ function HomePage() {
         </p>
       </div>
 
-      
-
-      {/* Call to Action */}
       <div className="cta-section">
         <h2 className="cta-title">Comece a gerenciar agora</h2>
         <nav className="home-nav">

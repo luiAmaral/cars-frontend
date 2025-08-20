@@ -1,16 +1,13 @@
-// src/App.tsx
 import { Routes, Route, Link } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 
-// Importe as páginas (vamos criá-las nas pastas corretas)
 import MarcaListPage from './pages/Marca/MarcaListPage';
 import MarcaFormPage from './pages/Marca/MarcaFormPage';
 import ModeloListPage from './pages/Modelo/ModeloListPage';
 import ModeloFormPage from './pages/Modelo/ModeloFormPage';
 import CarroListPage from './pages/Carro/CarroListPage';
 import CarroFormPage from './pages/Carro/CarroFormPage';
-
-import './App.css'; // O CSS é o mesmo
+import './App.css';
 
 function App() {
   return (

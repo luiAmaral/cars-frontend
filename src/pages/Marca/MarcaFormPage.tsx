@@ -1,4 +1,3 @@
-// src/pages/Marca/MarcaFormPage.tsx
 import CrudFormPage from '../../components/crud/CrudFormPage';
 import { getMarcaById, createMarca, updateMarca, type Marca, type MarcaCreate } from '../../services/api';
 

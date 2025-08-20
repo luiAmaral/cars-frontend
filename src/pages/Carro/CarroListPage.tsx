@@ -1,53 +1,38 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// src/pages/Carro/CarroListPage.tsx
-import { useState, useEffect } from 'react';
+
+import { useState, useEffect, useMemo } from 'react'; // Adicionamos useMemo
 import { Link } from 'react-router-dom';
-import { getCarros, getMarcas, deleteCarro } from '../../services/api';
-import type { Carro, Marca } from '../../services/api';
-import '../../components/crud/CrudListPage.css'; // Reutilizando o estilo
+import { getCarros, getMarcas, getModelos, deleteCarro } from '../../services/api';
+import type { Carro, Marca, Modelo } from '../../services/api';
+import '../../components/crud/CrudListPage.css';
 
-// Criando um tipo para os dados agrupados
-type CarrosAgrupados = {
-  [nomeMarca: string]: Carro[];
-};
+interface DadosDaPagina {
+  carros: Carro[];
+  marcas: Marca[];
+  modelos: Modelo[];
+}
 
-// A função do componente começa aqui
 function CarroListPage() {
-  // Toda a lógica, estados e efeitos devem ficar DENTRO da função
-  const [carrosAgrupados, setCarrosAgrupados] = useState<CarrosAgrupados>({});
+  const [dados, setDados] = useState<DadosDaPagina | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Colocamos a função de busca de dados aqui dentro para que ela tenha acesso a setLoading, setError, etc.
   const fetchData = async () => {
     try {
       setLoading(true);
-      const [carrosResponse, marcasResponse] = await Promise.all([getCarros(), getMarcas()]);
+      const [carrosResponse, marcasResponse, modelosResponse] = await Promise.all([
+        getCarros(),
+        getMarcas(),
+        getModelos(),
+      ]);
       
-      const carros = carrosResponse.data.cars;
-      const marcas: Marca[] = marcasResponse.data;
+      // Armazenamos os dados brutos em um único objeto de estado
+      setDados({
+        carros: carrosResponse.data.cars,
+        marcas: marcasResponse.data,
+        modelos: modelosResponse.data,
+      });
 
-      // --- INÍCIO DA DEPURAÇÃO ---
-      console.log("Carros recebidos da API:", carros);
-      console.log("Marcas recebidas da API:", marcas);
-      // --- FIM DA DEPURAÇÃO ---
-
-      const marcasMap = new Map(marcas.map(marca => [marca.id, marca.nome_marca]));
-
-      // --- MAIS DEPURAÇÃO ---
-      console.log("Mapa de marcas criado:", marcasMap);
-      // --- FIM DA DEPURAÇÃO ---
-
-      const agrupado = carros.reduce((acc, carro) => {
-        const nomeMarca = marcasMap.get(carro.brand) || 'Marca Desconhecida';
-        if (!acc[nomeMarca]) {
-          acc[nomeMarca] = [];
-        }
-        acc[nomeMarca].push(carro);
-        return acc;
-      }, {} as CarrosAgrupados);
-
-      setCarrosAgrupados(agrupado);
     } catch (err) {
       setError('Falha ao carregar os dados.');
       console.error(err);
@@ -58,25 +43,45 @@ function CarroListPage() {
 
   useEffect(() => {
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // O array vazio garante que a busca de dados aconteça apenas uma vez, quando o componente montar
+  }, []);
 
   const handleDelete = async (id: number | string) => {
     if (window.confirm('Tem certeza que deseja excluir este carro?')) {
       try {
         await deleteCarro(id);
         alert('Carro excluído com sucesso!');
-        fetchData(); // Recarrega a lista após a exclusão
+        fetchData(); // Apenas recarrega todos os dados
       } catch (err: any) {
         alert(`Erro ao excluir o carro: ${err.response?.data?.detail || err.message}`);
       }
     }
   };
 
+  // SIMPLIFICAÇÃO 2: A lógica de agrupamento e mapeamento sai do 'fetchData'
+  // e entra aqui, usando 'useMemo' para evitar recálculos desnecessários.
+  const carrosAgrupados = useMemo(() => {
+    if (!dados) return {};
+
+    // A lógica de reduce continua a mesma, mas agora ela depende do estado 'dados'.
+    return dados.carros.reduce((acc, carro) => {
+      // **ATENÇÃO:** Substitua 'brand' pelo nome exato do campo no seu objeto Carro!
+      const marcaDoCarro = dados.marcas.find(m => m.id === carro.brand);
+      const nomeMarca = marcaDoCarro?.nome_marca || 'Marca Desconhecida';
+      
+      if (!acc[nomeMarca]) {
+        acc[nomeMarca] = [];
+      }
+      acc[nomeMarca].push(carro);
+      return acc;
+    }, {} as { [nomeMarca: string]: Carro[] });
+
+  }, [dados]); // Esta lógica só será executada novamente se o estado 'dados' mudar.
+
+
   if (loading) return <p>Carregando...</p>;
   if (error) return <p style={{ color: 'red' }}>{error}</p>;
+  if (!dados) return <p>Nenhum dado encontrado.</p>; // Uma checagem de segurança
 
-  // O JSX a ser renderizado também deve estar dentro da função
   return (
     <div className="crud-list-page">
       <div className="header">
@@ -98,18 +103,26 @@ function CarroListPage() {
               </tr>
             </thead>
             <tbody>
-              {carrosAgrupados[nomeMarca].map(carro => (
-                <tr key={carro.id}>
-                  <td>{carro.nome_modelo}</td>
-                  <td>{carro.ano}</td>
-                  <td>{carro.cor}</td>
-                  <td>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(carro.valor)}</td>
-                  <td className="actions">
-                    <Link to={`/carros/editar/${carro.id}`} className="edit-button">Editar</Link>
-                    <button onClick={() => handleDelete(carro.id)} className="delete-button">Excluir</button>
-                  </td>
-                </tr>
-              ))}
+              {carrosAgrupados[nomeMarca].map(carro => {
+                // SIMPLIFICAÇÃO 3: A busca do nome do modelo é feita aqui, na hora.
+                // Usamos '.find()' que é mais simples de ler que o Map.
+                // **ATENÇÃO:** Substitua 'modelo_id' pelo nome exato do campo no seu objeto Carro!
+                const modeloDoCarro = dados.modelos.find(m => m.id === carro.modelo_id);
+                const nomeModelo = modeloDoCarro?.nome || 'Modelo Desconhecido';
+
+                return (
+                  <tr key={carro.id}>
+                    <td>{nomeModelo}</td>
+                    <td>{carro.ano}</td>
+                    <td>{carro.cor}</td>
+                    <td>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(carro.valor)}</td>
+                    <td className="actions">
+                      <Link to={`/carros/editar/${carro.id}`} className="edit-button">Editar</Link>
+                      <button onClick={() => handleDelete(carro.id)} className="delete-button">Excluir</button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

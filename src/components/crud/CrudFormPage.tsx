@@ -1,11 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// src/components/crud/CrudFormPage.tsx
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import type { AxiosResponse } from 'axios';
 import './CrudFormPage.css';
-
-// --- DEFINIÇÃO DOS TIPOS (VERSÃO FINAL E CORRIGIDA) ---
 
 interface FormField {
   name: string;
@@ -14,11 +11,9 @@ interface FormField {
   options?: { value: any; label: string }[];
 }
 
-// Tipos genéricos mais específicos para os dados do formulário
 type CreateData<T> = Omit<T, 'id'>;
 type UpdateData<T> = Partial<CreateData<T>>;
 
-// A interface da API agora usa esses tipos mais específicos
 interface FormApiFunctions<T> {
   getById?: (id: number | string) => Promise<AxiosResponse<T>>;
   create: (data: CreateData<T>) => Promise<AxiosResponse<T>>;
@@ -46,10 +41,8 @@ function CrudFormPage<T extends { id?: number | string }>({
 
   const isEditMode = Boolean(id);
 
-  // ==================== CORREÇÃO AQUI ====================
   useEffect(() => {
     const fetchItemForEdit = async () => {
-      // A lógica agora está dentro de uma função async e as dependências foram corrigidas.
       if (isEditMode && id && api.getById) {
         try {
           const response = await api.getById(id);
@@ -62,7 +55,7 @@ function CrudFormPage<T extends { id?: number | string }>({
     };
 
     fetchItemForEdit();
-  }, [id, isEditMode, api.getById, title]); // <-- Lista de dependências corrigida e estável
+  }, [id, isEditMode, api.getById, title]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -92,12 +85,10 @@ function CrudFormPage<T extends { id?: number | string }>({
       <h1>{`${isEditMode ? 'Editar' : 'Criar'} ${title}`}</h1>
       <form onSubmit={handleSubmit} className="crud-form">
         
-        {/* ==================== A CORREÇÃO ESTÁ AQUI ==================== */}
         {fields.map(field => (
           <div key={field.name} className="form-group">
             <label htmlFor={field.name}>{field.label}</label>
             
-            {/* Adicionamos a lógica para verificar se o tipo do campo é 'select' */}
             {field.type === 'select' ? (
               <select
                 id={field.name}
@@ -114,7 +105,6 @@ function CrudFormPage<T extends { id?: number | string }>({
                 ))}
               </select>
             ) : (
-              // Caso contrário, renderiza um input normal
               <input
                 id={field.name}
                 name={field.name}

@@ -1,22 +1,12 @@
-// src/services/api.ts
 import axios, { type AxiosResponse } from 'axios';
 
-// -------------------------------------------------------------------
-// Configuração do Cliente API
-// -------------------------------------------------------------------
-
 const apiClient = axios.create({
-  baseURL: '/api', // A URL base da sua API
+  baseURL: 'http://18.189.27.154:8000',
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// -------------------------------------------------------------------
-// Definições de Tipos (Interfaces e Tipos Derivados)
-// -------------------------------------------------------------------
-
-// --- Marca ---
 export interface Marca {
   id: number;
   nome_marca: string;
@@ -24,7 +14,6 @@ export interface Marca {
 export type MarcaCreate = Omit<Marca, 'id'>;
 export type MarcaUpdate = Partial<MarcaCreate>;
 
-// --- Modelo ---
 export interface Modelo {
   id: number;
   nome: string;
@@ -34,7 +23,6 @@ export interface Modelo {
 export type ModeloCreate = Omit<Modelo, 'id'>;
 export type ModeloUpdate = Partial<ModeloCreate>;
 
-// --- Carro ---
 export interface Carro {
   id: number;
   timestamp_cadastro: number;
@@ -45,25 +33,20 @@ export interface Carro {
   cor: string;
   nome_modelo: string;
   valor: number;
-  brand: number; // ID da marca do carro
+  brand: number;
 }
-// Usando 'Omit' para consistência e para remover campos gerados pelo backend
 export type CarroCreate = Omit<Carro, 'id' | 'timestamp_cadastro' | 'nome_modelo' | 'brand'>;
 export type CarroUpdate = Partial<CarroCreate>;
 
-
-// ===================================================================
-// --- Marcas ---
-// ===================================================================
-
+//endpoints marca
 export const getMarcas = (skip = 0, limit = 100): Promise<AxiosResponse<Marca[]>> => 
-  apiClient.get(`/marcas/?skip=${skip}&limit=${limit}`); // <-- CORREÇÃO AQUI
+  apiClient.get(`/marcas/?skip=${skip}&limit=${limit}`);
 
 export const getMarcaById = (marcaId: number | string): Promise<AxiosResponse<Marca>> =>
   apiClient.get(`/marcas/${marcaId}`);
 
 export const createMarca = (marcaData: MarcaCreate): Promise<AxiosResponse<Marca>> => 
-  apiClient.post('/marcas/', marcaData); // <-- CORREÇÃO AQUI
+  apiClient.post('/marcas/', marcaData);
 
 export const updateMarca = (marcaId: number | string, marcaData: Partial<MarcaCreate>): Promise<AxiosResponse<Marca>> =>
   apiClient.put(`/marcas/${marcaId}`, marcaData);
@@ -71,19 +54,15 @@ export const updateMarca = (marcaId: number | string, marcaData: Partial<MarcaCr
 export const deleteMarca = (marcaId: number | string): Promise<void> => 
   apiClient.delete(`/marcas/${marcaId}`);
 
-
-// ===================================================================
-// --- Modelos ---
-// ===================================================================
-
+//endpoints modelo
 export const getModelos = (skip = 0, limit = 100): Promise<AxiosResponse<Modelo[]>> => 
-  apiClient.get(`/modelos/?skip=${skip}&limit=${limit}`); // <-- CORREÇÃO AQUI
+  apiClient.get(`/modelos/?skip=${skip}&limit=${limit}`);
 
 export const getModeloById = (modeloId: number | string): Promise<AxiosResponse<Modelo>> =>
   apiClient.get(`/modelos/${modeloId}`);
 
 export const createModelo = (modeloData: ModeloCreate): Promise<AxiosResponse<Modelo>> => 
-  apiClient.post('/modelos/', modeloData); // <-- CORREÇÃO AQUI
+  apiClient.post('/modelos/', modeloData);
 
 export const updateModelo = (modeloId: number | string, modeloData: Partial<ModeloCreate>): Promise<AxiosResponse<Modelo>> =>
   apiClient.put(`/modelos/${modeloId}`, modeloData);
@@ -91,19 +70,15 @@ export const updateModelo = (modeloId: number | string, modeloData: Partial<Mode
 export const deleteModelo = (modeloId: number | string): Promise<void> => 
   apiClient.delete(`/modelos/${modeloId}`);
 
-
-// ===================================================================
-// --- Carros ---
-// ===================================================================
-
+//endpoints carro
 export const getCarros = (): Promise<AxiosResponse<{ cars: Carro[] }>> => 
-  apiClient.get('/cars/'); // <-- CORREÇÃO AQUI
+  apiClient.get('/cars/'); 
 
 export const getCarroById = (carroId: number | string): Promise<AxiosResponse<Carro>> =>
   apiClient.get(`/cars/${carroId}`);
 
 export const createCarro = (carroData: CarroCreate): Promise<AxiosResponse<Carro>> => 
-  apiClient.post('/cars/', carroData); // <-- CORREÇÃO AQUI
+  apiClient.post('/cars/', carroData); 
 
 export const updateCarro = (carroId: number | string, carroData: CarroUpdate): Promise<AxiosResponse<Carro>> =>
   apiClient.put(`/cars/${carroId}`, carroData);

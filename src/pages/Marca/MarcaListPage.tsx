@@ -1,7 +1,6 @@
-// src/pages/Marca/MarcaListPage.tsx
 import CrudListPage from '../../components/crud/CrudListPage';
 import { getMarcas, deleteMarca } from '../../services/api';
-import type { Marca } from '../../services/api'; // Importe o tipo 'Marca'
+import type { Marca } from '../../services/api';
 
 function MarcaListPage() {
   const marcaApi = {
