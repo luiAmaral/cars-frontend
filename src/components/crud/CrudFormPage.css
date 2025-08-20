@@ -29,7 +29,7 @@
   transform: translateX(-50%);
   width: 60px;
   height: 3px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #4a5568;
   border-radius: 2px;
 }
 
@@ -39,7 +39,6 @@
   border-radius: 20px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
   position: relative;
   overflow: hidden;
 }
@@ -51,7 +50,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  background: #4a5568;
 }
 
 .crud-form .form-group {
@@ -87,29 +86,19 @@
 .crud-form input:focus,
 .crud-form select:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #4a5568;
   background: white;
-  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
-}
-
-.crud-form input:hover,
-.crud-form select:hover {
-  border-color: #cbd5e0;
-  background: white;
+  box-shadow: 0 0 0 3px rgba(74, 85, 104, 0.1);
 }
 
 .crud-form select {
   cursor: pointer;
   appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23667eea' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234a5568' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: right 1rem center;
   background-size: 20px;
   padding-right: 3rem;
-}
-
-.crud-form select:focus {
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23667eea' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
 }
 
 .form-actions {
@@ -136,29 +125,28 @@
 }
 
 .cancel-button {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  background: #f8f9fa;
   color: #6c757d;
   border: 2px solid #dee2e6;
 }
 
 .cancel-button:hover {
-  background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+  background: #e9ecef;
   color: #495057;
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(108, 117, 125, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .submit-button {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #4a5568;
   color: white;
   border: 2px solid transparent;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
 .submit-button:hover {
-  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+  background: #2d3748;
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .submit-button:active,
@@ -175,37 +163,6 @@
 .crud-form input:valid:not(:focus):not(:placeholder-shown) {
   border-color: #27ae60;
   background: #f2fdf2;
-}
-
-/* Animações */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.crud-form-page {
-  animation: fadeInUp 0.6s ease-out;
-}
-
-.crud-form .form-group {
-  animation: fadeInUp 0.4s ease-out;
-  animation-fill-mode: both;
-}
-
-.crud-form .form-group:nth-child(1) { animation-delay: 0.1s; }
-.crud-form .form-group:nth-child(2) { animation-delay: 0.2s; }
-.crud-form .form-group:nth-child(3) { animation-delay: 0.3s; }
-.crud-form .form-group:nth-child(4) { animation-delay: 0.4s; }
-.crud-form .form-group:nth-child(5) { animation-delay: 0.5s; }
-
-.form-actions {
-  animation: fadeInUp 0.4s ease-out 0.6s both;
 }
 
 /* Responsividade */
@@ -274,7 +231,7 @@
 
 /* Focus states melhorados para acessibilidade */
 .form-actions button:focus {
-  outline: 2px solid #667eea;
+  outline: 2px solid #4a5568;
   outline-offset: 2px;
 }
 
@@ -294,9 +251,4 @@
 .crud-form select::placeholder {
   color: #a0aec0;
   opacity: 1;
-}
-
-/* Smooth transitions para todos os elementos */
-* {
-  transition: all 0.2s ease;
 }
