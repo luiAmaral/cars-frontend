@@ -14,18 +14,7 @@
   align-items: center;
   margin-bottom: 3rem;
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid #e8e8e8;
-  position: relative;
-}
-
-.crud-list-page .header::after {
-  content: '';
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  width: 60px;
-  height: 2px;
-  background: #4a5568;
+  border-bottom: 2px solid #e8e8e8;
 }
 
 .crud-list-page h1 {
