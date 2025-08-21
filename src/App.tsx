@@ -14,7 +14,10 @@ function App() {
     <>
       <header className="main-header">
         <div className="header-content">
-          <Link to="/" className="logo">Gestão de Veículos</Link>
+          <Link to="/" className="logo">
+            <span className="logo-icon">🚗</span>
+            <span className="logo-text">AutoFlow</span>
+          </Link>
         </div>
       </header>
       <main className="container">
