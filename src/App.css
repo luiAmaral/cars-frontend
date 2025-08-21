@@ -29,14 +29,31 @@ body {
 .logo {
   color: white;
   text-decoration: none;
-  font-size: 1.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.5rem;
   font-weight: 600;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.3px;
   transition: opacity 0.2s ease;
 }
 
+.logo-icon {
+  font-size: 2rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.logo-text {
+  font-weight: 700;
+  background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 .logo:hover {
-  opacity: 0.9;
+  opacity: 0.85;
+  transform: translateY(-1px);
 }
 
 /* Responsividade do header */
