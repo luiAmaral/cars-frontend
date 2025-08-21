@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useState, useEffect } from 'react';
-import { data, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './CrudListPage.css';
 import Spinner from '../../components/common/Spinner';
 
