@@ -8,25 +8,50 @@ body {
 
 /* Estilo para o header ocupar a largura toda */
 .main-header {
-  background-color: #212529; /* Um preto um pouco mais suave */
+  background-color: #2d3748;
   color: white;
-  padding: 1rem 0;
+  padding: 1.5rem 0;
   width: 100%;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Este container alinha o conteúdo do header com o container principal */
 .header-content {
   max-width: auto;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .logo {
   color: white;
   text-decoration: none;
-  font-size: 1.5rem;
-  font-weight: bold;
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  transition: opacity 0.2s ease;
+}
+
+.logo:hover {
+  opacity: 0.9;
+}
+
+/* Responsividade do header */
+@media (max-width: 768px) {
+  .main-header {
+    padding: 1.25rem 0;
+  }
+  
+  .header-content {
+    padding: 0 1rem;
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+  }
 }
 
 /* Container principal para o conteúdo das páginas */
