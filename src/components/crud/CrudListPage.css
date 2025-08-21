@@ -84,10 +84,14 @@
 
 .crud-table td {
   padding: 1.25rem 1.5rem;
+  width: auto ;
   border-bottom: 1px solid #f1f3f4;
   color: #2c3e50;
   font-size: 0.95rem;
   vertical-align: middle;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
 }
 
 .crud-table tbody tr:last-child td {

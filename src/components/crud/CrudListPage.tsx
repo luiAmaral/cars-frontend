@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { data, Link } from 'react-router-dom';
 import './CrudListPage.css';
 import Spinner from '../../components/common/Spinner';
 
@@ -14,7 +14,7 @@ interface Column {
 }
 
 interface ApiFunctions<T> {
-  getAll: () => Promise<{ data: T[] | { [key: string]: T[] } }>; 
+  getAll: () => Promise<{ data: T[] | { [key: string]: T[] } }>;
   delete: (id: number | string) => Promise<void>;
 }
 
@@ -24,7 +24,8 @@ interface CrudListPageProps<T> {
   columns: Column[];
   addPath: string;
   editPath: string;
-  dataAccessor?: string; 
+  dataAccessor?: string;
+  renderCell?: (row: any, column: any) => any;  // Adicionando a propriedade renderCell
 }
 
 function CrudListPage<T extends { id: number | string }>({
@@ -34,6 +35,7 @@ function CrudListPage<T extends { id: number | string }>({
   addPath,
   editPath,
   dataAccessor, 
+  renderCell,
 }: CrudListPageProps<T>) {
 
   const [items, setItems] = useState<T[]>([]);
@@ -46,16 +48,15 @@ function CrudListPage<T extends { id: number | string }>({
       const response = await api.getAll();
       
       const data = dataAccessor && dataAccessor in response.data
-        ? (response.data as { [key: string]: T[] })[dataAccessor] // <--- CORREÇÃO AQUI
+        ? (response.data as { [key: string]: T[] })[dataAccessor] 
         : response.data;
 
       if (Array.isArray(data)) {
         setItems(data);
       } else {
-        console.error("Erro: Os dados recebidos da API não são um array.", response.data);
+        console.error("Erro: Os dados recebidos da API não são válidos.", response.data);
         throw new Error("Formato de dados inválido recebido da API.");
       }
-
     } catch (err) {
       setError(`Falha ao carregar ${title.toLowerCase()}.`);
       console.error(err);
@@ -66,7 +67,7 @@ function CrudListPage<T extends { id: number | string }>({
 
   useEffect(() => {
     fetchData();
-  }, [title]); 
+  }, [api, dataAccessor]); 
 
   const handleDelete = async (id: number | string) => {
     if (window.confirm('Tem certeza que deseja excluir este item?')) {
@@ -74,7 +75,6 @@ function CrudListPage<T extends { id: number | string }>({
         await api.delete(id);
         alert('Item excluído com sucesso!');
         fetchData(); 
-      
       } catch (err: any) {
         alert(`Erro ao excluir o item: ${err.response?.data?.detail || err.message}`);
         console.error(err);
@@ -106,7 +106,10 @@ function CrudListPage<T extends { id: number | string }>({
           {items.map((item) => (
             <tr key={item.id}>
               {columns.map((col) => (
-                <td key={col.accessor}>{String(item[col.accessor as keyof T])}</td>
+                <td key={col.accessor}>
+                  {/* Aplica renderCell se estiver definido */}
+                  {renderCell ? renderCell(item, col) : String(item[col.accessor as keyof T])}
+                </td>
               ))}
               <td className="actions">
                 <Link to={`${editPath}/${item.id}`} className="edit-button">
