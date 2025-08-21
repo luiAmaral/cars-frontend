@@ -69,7 +69,8 @@ function GroupedListPage<T extends { id: number | string }>({
       try {
         await api.delete(id);
         alert('Item excluído com sucesso!');
-        fetchData();
+        // Atualizando diretamente o estado após exclusão
+        setItems((prevItems) => prevItems.filter((item) => item.id !== id));
       } catch (err: any) {
         alert(`Erro ao excluir o item: ${err.response?.data?.detail || err.message}`);
         console.error(err);
@@ -85,7 +86,7 @@ function GroupedListPage<T extends { id: number | string }>({
     const groupKey = item[groupBy as keyof T] as string;
 
     // Substituindo o id da marca pelo nome da marca (usando o mapa de marcas)
-    const brandName = marcaMap[groupKey as unknown as number] || 'Marca Desconhecida'; // Aqui substituímos o id pelo nome da marca
+    const brandName = marcaMap[groupKey as unknown as number] || 'Marca Desconhecida';
     
     if (!acc[brandName]) {
       acc[brandName] = [];
