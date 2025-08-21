@@ -3,6 +3,11 @@ import CrudListPage from '../../components/crud/CrudListPage';
 import { getModelos, getMarcas, deleteModelo } from '../../services/api';
 import type { Modelo, Marca } from '../../services/api';
 
+// Função para formatar valores como moeda
+const formatCurrency = (value: number): string => {
+  return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
+};
+
 function ModeloListPage() {
   const [marcas, setMarcas] = useState<Marca[]>([]);
 
@@ -23,7 +28,7 @@ function ModeloListPage() {
 
   // Criar um mapa de marcas onde a chave é o id da marca e o valor é o nome da marca
   const marcaMap = marcas.reduce((acc, marca) => {
-    acc[marca.id] = marca.nome_marca;  // Substitua 'nome_marca' pelo campo correto que tem o nome da marca
+    acc[marca.id] = marca.nome_marca;
     return acc;
   }, {} as { [key: number]: string });
 
@@ -36,12 +41,13 @@ function ModeloListPage() {
   const columns = [
     { header: 'ID', accessor: 'id' },
     { header: 'Nome do Modelo', accessor: 'nome' },
-    { header: 'Marca', accessor: 'marca_id' }, // Mostra o nome da marca em vez do ID
+    { header: 'Marca', accessor: 'marca_id' },
+    { header: 'Valor', accessor: 'valor_fipe' }, // Aqui estamos exibindo 'valor_fipe'
   ];
 
   // Função para substituir o ID da marca pelo nome
   const replaceMarcaIdWithName = (marcaId: number): string => {
-    return marcaMap[marcaId] || 'Marca Desconhecida'; // Se não encontrar a marca, exibe 'Marca Desconhecida'
+    return marcaMap[marcaId] || 'Marca Desconhecida';
   };
 
   return (
@@ -53,8 +59,10 @@ function ModeloListPage() {
       editPath="/modelos/editar"
       renderCell={(row, column) => {
         if (column.accessor === 'marca_id') {
-          // Substitui o ID da marca pelo nome
-          return replaceMarcaIdWithName(row[column.accessor as keyof Modelo] as number);
+          return replaceMarcaIdWithName(row[column.accessor as keyof Modelo] as number); // Substitui o ID pela marca
+        }
+        if (column.accessor === 'valor_fipe') {
+          return formatCurrency(Number(row[column.accessor as keyof Modelo])); // Aplica formatação de moeda para 'valor_fipe'
         }
         return row[column.accessor as keyof Modelo];
       }}
