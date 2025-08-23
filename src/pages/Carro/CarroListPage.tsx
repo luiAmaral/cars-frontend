@@ -1,51 +1,42 @@
 import { useState, useEffect } from 'react';
-import { getCarros, getMarcas, getModelos, deleteCarro } from '../../services/api';
-import type { Carro, Marca, Modelo } from '../../services/api';
-import GroupedListPage from '../../components/crud/CrudGroupedPage';
-
-interface DadosDaPagina {
-  carros: Carro[];
-  marcas: Marca[];
-  modelos: Modelo[];
-}
+import { getCarros, getMarcas, deleteCarro } from '../../services/api';
+import type { Carro, Marca } from '../../services/api';
+import CrudListPage from '../../components/crud/CrudListPage';
 
 function CarroListPage() {
-  const [dados, setDados] = useState<DadosDaPagina | null>(null);
-
-  const fetchData = async () => {
-    try {
-      const [carrosResponse, marcasResponse, modelosResponse] = await Promise.all([
-        getCarros(),
-        getMarcas(),
-        getModelos(),
-      ]);
-      
-      setDados({
-        carros: carrosResponse.data.cars,
-        marcas: marcasResponse.data,
-        modelos: modelosResponse.data,
-      });
-    } catch (err) {
-      console.error('Falha ao carregar os dados.', err);
-    }
-  };
+  // O estado e busca de dados continuam na página específica, o que é uma boa prática.
+  const [marcas, setMarcas] = useState<Marca[]>([]);
 
   useEffect(() => {
-    fetchData();
+    const fetchMarcas = async () => {
+      try {
+        const response = await getMarcas();
+        setMarcas(response.data);
+      } catch (err) {
+        console.error('Falha ao carregar as marcas.', err);
+      }
+    };
+    fetchMarcas();
   }, []);
 
   const api = {
-    getAll: async () => {
-      return { data: dados?.carros || [] }; // Passando a lista de carros diretamente para o GroupedListPage
-    },
+    getAll: getCarros, // O componente genérico agora pode buscar os carros diretamente
     delete: deleteCarro,
   };
 
-  // Criando o mapa de marcas onde a chave é o id da marca e o valor é o nome da marca
-  const marcaMap = dados?.marcas.reduce((acc, marca) => {
-    acc[marca.id] = marca.nome_marca;  // Supondo que 'nome_marca' seja o nome da marca
+  // Criando o mapa de marcas para usar na função getGroupName
+  const marcaMap = marcas.reduce((acc, marca) => {
+    acc[marca.id] = marca.nome_marca;
     return acc;
   }, {} as { [key: number]: string });
+
+  // Função para buscar o nome da marca pelo ID
+  const getGroupName = (brandId: number) => marcaMap[brandId] || 'Marca Desconhecida';
+  
+  // Função para formatar o valor como moeda
+  const formatCurrency = (value: number): string => {
+    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
+  };
 
   const columns = [
     { header: 'ID', accessor: 'id' },
@@ -55,14 +46,21 @@ function CarroListPage() {
   ];
 
   return (
-    <GroupedListPage
+    <CrudListPage<Carro>
       title="Gerenciar Carros"
       api={api}
       columns={columns}
       addPath="/carros/novo"
       editPath="/carros/editar"
-      groupBy="brand"  // Agrupando por marca
-      marcaMap={marcaMap || {}}  // Garantindo que marcaMap nunca seja undefined
+      dataAccessor="cars" // Acessa a propriedade 'cars' da resposta da API
+      groupBy="brand"     // ATIVA O AGRUPAMENTO pelo campo 'brand'
+      getGroupName={getGroupName} // Fornece a função para obter o nome do grupo
+      renderCell={(item, column) => {
+        if (column.accessor === 'valor') {
+          return formatCurrency(Number(item.valor));
+        }
+        return String(item[column.accessor as keyof Carro]);
+      }}
     />
   );
 }
