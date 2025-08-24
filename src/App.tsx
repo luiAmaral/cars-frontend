@@ -22,20 +22,16 @@ function App() {
       </header>
       <main className="container">
         <Routes>
-          {/* Rota Principal */}
           <Route path="/" element={<HomePage />} />
 
-          {/* Rotas de Marcas */}
           <Route path="/marcas" element={<MarcaListPage />} />
           <Route path="/marcas/novo" element={<MarcaFormPage />} />
           <Route path="/marcas/editar/:id" element={<MarcaFormPage />} />
 
-          {/* Rotas de Modelos */}
           <Route path="/modelos" element={<ModeloListPage />} />
           <Route path="/modelos/novo" element={<ModeloFormPage />} />
           <Route path="/modelos/editar/:id" element={<ModeloFormPage />} />
 
-          {/* Rotas de Carros */}
           <Route path="/carros" element={<CarroListPage />} />
           <Route path="/carros/novo" element={<CarroFormPage />} />
           <Route path="/carros/editar/:id" element={<CarroFormPage />} />
