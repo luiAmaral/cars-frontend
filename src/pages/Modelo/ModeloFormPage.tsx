@@ -1,18 +1,16 @@
-// src/pages/Modelo/ModeloFormPage.tsx
-import { useState, useEffect } from 'react'; // 1. IMPORTE useState e useEffect
+import { useState, useEffect } from 'react';
 import CrudFormPage from '../../components/crud/CrudFormPage';
 import { 
   getModeloById, 
   createModelo, 
   updateModelo, 
-  getMarcas, // 2. IMPORTE a função para buscar marcas
+  getMarcas,
   type Modelo, 
   type ModeloCreate,
-  type Marca // Importe o tipo Marca também
+  type Marca
 } from '../../services/api';
 
 function ModeloFormPage() {
-  // 3. CRIE UM ESTADO PARA ARMAZENAR A LISTA DE MARCAS
   const [marcas, setMarcas] = useState<Marca[]>([]);
 
   const modeloApi = {
@@ -21,9 +19,7 @@ function ModeloFormPage() {
     update: updateModelo,
   };
 
-  // 4. USE o useEffect PARA BUSCAR AS MARCAS QUANDO A PÁGINA CARREGAR
   useEffect(() => {
-    // Busca a lista de todas as marcas para preencher o dropdown
     getMarcas()
       .then(response => {
         setMarcas(response.data);
@@ -32,9 +28,8 @@ function ModeloFormPage() {
         console.error("Erro ao buscar marcas:", error);
         alert("Não foi possível carregar a lista de marcas.");
       });
-  }, []); // O array vazio [] garante que isso rode apenas uma vez
+  }, []); 
 
-  // 5. ATUALIZE A DEFINIÇÃO DO CAMPO 'marca_id'
   const fields = [
     {
       name: 'nome',
@@ -43,9 +38,9 @@ function ModeloFormPage() {
     },
     {
       name: 'marca_id',
-      label: 'Marca', // O rótulo agora é mais amigável
-      type: 'select' as const, // Mude o tipo para 'select'
-      // A nova propriedade 'options' mapeia a lista de marcas para o formato que o formulário espera
+      label: 'Marca',
+      type: 'select' as const,
+      
       options: marcas.map(marca => ({
         value: marca.id,
         label: marca.nome_marca,

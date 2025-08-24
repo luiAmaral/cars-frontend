@@ -1,5 +1,4 @@
-// src/components/common/Spinner.tsx
-import './Spinner.css'; // Vamos criar este arquivo de estilo a seguir
+import './Spinner.css';
 
 function Spinner() {
   return (

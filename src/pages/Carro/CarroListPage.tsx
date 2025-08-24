@@ -4,7 +4,6 @@ import type { Carro, Marca } from '../../services/api';
 import CrudListPage from '../../components/crud/CrudListPage';
 
 function CarroListPage() {
-  // O estado e busca de dados continuam na página específica, o que é uma boa prática.
   const [marcas, setMarcas] = useState<Marca[]>([]);
 
   useEffect(() => {
@@ -20,20 +19,17 @@ function CarroListPage() {
   }, []);
 
   const api = {
-    getAll: getCarros, // O componente genérico agora pode buscar os carros diretamente
+    getAll: getCarros,
     delete: deleteCarro,
   };
 
-  // Criando o mapa de marcas para usar na função getGroupName
   const marcaMap = marcas.reduce((acc, marca) => {
     acc[marca.id] = marca.nome_marca;
     return acc;
   }, {} as { [key: number]: string });
 
-  // Função para buscar o nome da marca pelo ID
   const getGroupName = (brandId: number) => marcaMap[brandId] || 'Marca Desconhecida';
   
-  // Função para formatar o valor como moeda
   const formatCurrency = (value: number): string => {
     return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
   };
@@ -52,9 +48,9 @@ function CarroListPage() {
       columns={columns}
       addPath="/carros/novo"
       editPath="/carros/editar"
-      dataAccessor="cars" // Acessa a propriedade 'cars' da resposta da API
-      groupBy="brand"     // ATIVA O AGRUPAMENTO pelo campo 'brand'
-      getGroupName={getGroupName} // Fornece a função para obter o nome do grupo
+      dataAccessor="cars" 
+      groupBy="brand"
+      getGroupName={getGroupName}
       renderCell={(item, column) => {
         if (column.accessor === 'valor') {
           return formatCurrency(Number(item.valor));

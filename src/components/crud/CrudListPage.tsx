@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom';
 import Spinner from '../../components/common/Spinner';
 import './CrudListPage.css';
 
-// --- DEFINIÇÃO DOS TIPOS ---
-
 interface Column {
   header: string;
   accessor: string;
@@ -23,11 +21,8 @@ interface CrudListPageProps<T> {
   addPath: string;
   editPath: string;
   dataAccessor?: string;
-  // Prop opcional para agrupar. Se não for fornecida, a tabela não será agrupada.
   groupBy?: keyof T;
-  // Prop opcional para formatar o nome do grupo (ex: buscar nome da marca pelo ID)
   getGroupName?: (groupKey: any) => string;
-  // Prop para renderização customizada de células
   renderCell?: (item: T, column: Column) => React.ReactNode;
 }
 
@@ -88,15 +83,12 @@ function CrudListPage<T extends { id: number | string }>({
       }
     }
   };
-
-  // Agrupa os itens SOMENTE se a prop 'groupBy' for fornecida
   const groupedItems = useMemo(() => {
     if (!groupBy) return null;
 
     return items.reduce((acc, item) => {
       const groupKey = item[groupBy] as string | number;
       
-      // Usa a função getGroupName para obter o nome de exibição, ou usa a própria chave como fallback
       const groupName = getGroupName ? getGroupName(groupKey) : String(groupKey);
       
       if (!acc[groupName]) {
@@ -109,8 +101,6 @@ function CrudListPage<T extends { id: number | string }>({
 
   if (loading) return <Spinner />;
   if (error) return <p style={{ color: 'red' }}>{error}</p>;
-
-  // Componente interno para renderizar a tabela, evitando duplicação de código
   const renderTable = (data: T[]) => (
     <table className="crud-table">
       <thead>
