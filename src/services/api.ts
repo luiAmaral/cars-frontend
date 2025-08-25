@@ -1,7 +1,11 @@
 import axios, { type AxiosResponse } from 'axios';
 
+const BASE_URL = import.meta.env.VITE_API_URL;
+
+console.log('API Base URL:', BASE_URL); 
+
 const apiClient = axios.create({
-  baseURL: 'http://18.189.27.154:8000',
+  baseURL: BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
